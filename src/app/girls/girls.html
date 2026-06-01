@@ -1,11 +1,16 @@
-<div class="search-box">
-  <input type="text" placeholder="חיפוש לפי שם..." [(ngModel)]="searchName">
-  <input type="number" placeholder="חיפוש לפי גיל..." [(ngModel)]="searchAge">
+<div class="search-bar">
+  <input #nameInput type="text" placeholder="חיפוש לפי שם..." [(ngModel)]="searchName">
+  
+  <div class="divider"></div>
+  
+  <input type="number" placeholder="גיל..." [(ngModel)]="searchAge">
 </div>
 
 <div class="cards-container">
   <div *ngFor="let candidate of filteredCandidates" class="candidate-card">
-    <img [src]="candidate.imageUrl" [alt]="candidate.name" (click)="openImage(candidate.imageUrl)">
+    <img [src]="candidate.imageUrl" 
+         [alt]="candidate.name" 
+         (click)="openImage(candidate.imageUrl)">
     
     <h3>{{ candidate.name }}</h3>
     <p>גיל: {{ candidate.age }} | עיר: {{ candidate.city }}</p>
@@ -17,10 +22,10 @@
   </div>
 </div>
 
-<div class="overlay" *ngIf="selectedImage" (click)="closeImage()">
-  <img [src]="selectedImage" class="full-image">
+<div *ngIf="filteredCandidates.length === 0" style="text-align: center; margin-top: 40px; color: #94a3b8;">
+  <p>לא נמצאו תוצאות התואמות לחיפוש שלך.</p>
 </div>
 
-<div *ngIf="filteredCandidates.length === 0" style="text-align: center; margin-top: 20px;">
-  <p>לא נמצאו תוצאות התואמות לחיפוש שלך.</p>
+<div class="overlay" *ngIf="selectedImage" (click)="closeImage()">
+  <img [src]="selectedImage" class="full-image">
 </div>

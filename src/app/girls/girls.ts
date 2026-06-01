@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Candidate } from '../models/candidate';
@@ -15,9 +15,10 @@ export class Girls implements OnInit {
   girlsList: Candidate[] = [];
   searchName: string = '';
   searchAge: number | null = null;
-  
-  // משתנה לניהול התמונה שנבחרה להגדלה
   selectedImage: string | null = null;
+
+  // גישה לתיבת החיפוש ב-HTML
+  @ViewChild('nameInput') nameInput!: ElementRef;
 
   constructor(private candidateService: CandidateService) {}
 
@@ -25,18 +26,21 @@ export class Girls implements OnInit {
     this.girlsList = this.candidateService.getGirls();
   }
 
-  // פונקציות לפתיחה וסגירה של התמונה
-  openImage(url: string) {
-    this.selectedImage = url;
+  // האזנה ללחיצות מקלדת גלובליות
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.ctrlKey && event.key === 'f') {
+      event.preventDefault(); // מונע את חיפוש הדפדפן הרגיל
+      this.nameInput.nativeElement.focus(); // שם את הפוקוס על האינפוט
+    }
   }
 
-  closeImage() {
-    this.selectedImage = null;
-  }
+  openImage(url: string) { this.selectedImage = url; }
+  closeImage() { this.selectedImage = null; }
 
   get filteredCandidates() {
     return this.girlsList.filter(c => 
-      (this.searchName === '' || c.name.includes(this.searchName)) &&
+      (this.searchName === '' || c.name.toLowerCase().includes(this.searchName.toLowerCase())) &&
       (this.searchAge === null || c.age === this.searchAge)
     );
   }

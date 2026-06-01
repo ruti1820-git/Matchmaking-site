@@ -1,17 +1,31 @@
-nav ul {
-  list-style-type: none;
+.navbar {
   display: flex;
-  gap: 20px;
-  background-color: #f4f4f4;
-  padding: 15px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 80px;
+  background: rgba(15, 23, 42, 0.7); // כחול כהה שקוף
+  backdrop-filter: blur(15px); // אפקט הטשטוש היוקרתי
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  .nav-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    margin-left: 30px;
+    font-weight: 500;
+    transition: 0.3s;
+
+    &:hover, &.active {
+      color: #fff;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    }
+  }
 }
 
-nav a {
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
-}
-
-nav a:hover {
-  color: #007bff;
+.content {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
 }

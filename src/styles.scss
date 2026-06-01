@@ -91,3 +91,30 @@ nav a:hover {
   border-radius: 25px;
   font-weight: bold;
 }
+
+:root {
+  --dark-bg: #0b0e14;          // רקע כהה עמוק מאוד
+  --accent-purple: #8b5cf6;    // סגול זוהר
+  --accent-cyan: #22d3ee;      // תכלת זוהר
+  --card-bg: rgba(30, 41, 59, 0.5); // כרטיסייה חצי שקופה
+  --text-white: #f8fafc;
+}
+
+body {
+  background-color: var(--dark-bg);
+  color: var(--text-white);
+  font-family: 'Inter', sans-serif;
+  // רקע עם הילה עדינה (ניתן להוסיף ב-background של ה-body)
+  background: radial-gradient(circle at top right, #1e1b4b, #0b0e14);
+}
+// עיצוב כרטיסיות למראה מודרני על הרקע הכהה
+.candidate-card {
+  background: var(--card-bg);
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 20px;
+  color: var(--text-light);
+  
+  // הוספת צל עדין שמתאים לרקע כהה
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}

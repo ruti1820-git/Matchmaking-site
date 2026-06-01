@@ -1,8 +1,11 @@
-<nav>
-  <a routerLink="/boys" routerLinkActive="active">בנים</a>
-  <a routerLink="/girls" routerLinkActive="active">בנות</a>
-  <a routerLink="/contact" routerLinkActive="active">צור קשר</a>
+<nav class="navbar">
+  <div class="logo">MatchMaking</div> <div class="nav-links">
+    <a routerLink="/boys" routerLinkActive="active">בנים</a>
+    <a routerLink="/girls" routerLinkActive="active">בנות</a>
+    <a routerLink="/contact" routerLinkActive="active">צור קשר</a>
+  </div>
 </nav>
 
-<!-- כאן יוצג התוכן של כל עמוד -->
-<router-outlet></router-outlet>
+<main class="content">
+  <router-outlet></router-outlet>
+</main>
