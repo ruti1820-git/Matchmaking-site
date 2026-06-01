@@ -1,0 +1,25 @@
+<div class="search-box" style="margin-bottom: 20px; text-align: center;">
+  <input type="text" placeholder="חיפוש לפי שם..." [(ngModel)]="searchName">
+  <input type="number" placeholder="חיפוש לפי גיל..." [(ngModel)]="searchAge">
+</div>
+
+<div class="cards-container">
+  <div *ngFor="let candidate of filteredCandidates" class="candidate-card">
+    <!-- הוספנו click להגדלת התמונה -->
+    <img [src]="candidate.imageUrl" [alt]="candidate.name" 
+         style="width:100px; height:100px; border-radius: 50%; cursor: pointer;" 
+         (click)="openImage(candidate.imageUrl)">
+         
+    <h3>{{ candidate.name }}</h3>
+    <p>גיל: {{ candidate.age }} | עיר: {{ candidate.city }}</p>
+    <p>{{ candidate.description }}</p>
+    <a [href]="candidate.resumeUrl" target="_blank" download class="download-btn">
+      הורד רזומה (PDF)
+    </a>
+  </div>
+</div>
+
+<!-- רכיב ה-Overlay להגדלת התמונה -->
+<div class="overlay" *ngIf="selectedImage" (click)="closeImage()">
+  <img [src]="selectedImage" class="full-image">
+</div>

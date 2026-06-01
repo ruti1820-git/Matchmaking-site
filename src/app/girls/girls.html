@@ -1,0 +1,26 @@
+<div class="search-box">
+  <input type="text" placeholder="חיפוש לפי שם..." [(ngModel)]="searchName">
+  <input type="number" placeholder="חיפוש לפי גיל..." [(ngModel)]="searchAge">
+</div>
+
+<div class="cards-container">
+  <div *ngFor="let candidate of filteredCandidates" class="candidate-card">
+    <img [src]="candidate.imageUrl" [alt]="candidate.name" (click)="openImage(candidate.imageUrl)">
+    
+    <h3>{{ candidate.name }}</h3>
+    <p>גיל: {{ candidate.age }} | עיר: {{ candidate.city }}</p>
+    <p>{{ candidate.description }}</p>
+    
+    <a [href]="candidate.resumeUrl" target="_blank" download class="download-btn">
+      הורד רזומה (PDF)
+    </a>
+  </div>
+</div>
+
+<div class="overlay" *ngIf="selectedImage" (click)="closeImage()">
+  <img [src]="selectedImage" class="full-image">
+</div>
+
+<div *ngIf="filteredCandidates.length === 0" style="text-align: center; margin-top: 20px;">
+  <p>לא נמצאו תוצאות התואמות לחיפוש שלך.</p>
+</div>

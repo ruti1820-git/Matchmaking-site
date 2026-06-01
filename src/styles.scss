@@ -1,1 +1,93 @@
 /* You can add global styles to this file, and also import other style files */
+/* פונט נעים לעין */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9fb;
+  margin: 0;
+  color: #333;
+}
+
+/* עיצוב התפריט */
+nav {
+  background-color: #ffffff;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #007bff;
+}
+
+/* עיצוב אזור החיפוש */
+.search-box {
+  margin: 30px auto;
+  text-align: center;
+}
+
+.search-box input {
+  padding: 10px 15px;
+  margin: 0 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 200px;
+}
+
+/* עיצוב הכרטיסים */
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  padding: 20px;
+  justify-content: center;
+}
+/* במקום .card, נשתמש ב-.candidate-card */
+.candidate-card {
+  background: white;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* ... שאר העיצוב ... */
+}
+
+.card {
+  width: 280px;
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+.card img {
+  border-radius: 50%;
+  width: 120px !important;
+  height: 120px !important;
+  object-fit: cover;
+  border: 3px solid #f0f0f0;
+}
+
+.download-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: bold;
+}

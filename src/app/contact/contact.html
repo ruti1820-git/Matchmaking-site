@@ -1,0 +1,14 @@
+<div class="contact-container">
+  <h2>הוספת מועמד</h2>
+  
+  <input [(ngModel)]="newCandidate.name" name="name" placeholder="שם">
+  <input [(ngModel)]="newCandidate.age" name="age" type="number" placeholder="גיל">
+  <input [(ngModel)]="newCandidate.city" name="city" placeholder="עיר">
+  <textarea [(ngModel)]="newCandidate.description" name="description" placeholder="תיאור"></textarea>
+
+  <label>תמונה:</label>
+  <input type="file" (change)="uploadFile($event, 'image')" accept="image/*">
+  
+  <label>קורות חיים (PDF):</label>
+  <input type="file" (change)="uploadFile($event, 'pdf')" accept=".pdf">
+</div>
