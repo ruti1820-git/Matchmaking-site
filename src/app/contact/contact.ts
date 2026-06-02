@@ -1,24 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { initializeApp } from 'firebase/app';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
-
-// הגדרות Firebase שלך
-const firebaseConfig = {
-  apiKey: "AIzaSyC4XdZD_Oi_4dWAyEflSrKeXkiLMmaBD-I",
-  authDomain: "my-project-24edb.firebaseapp.com",
-  projectId: "my-project-24edb",
-  storageBucket: "my-project-24edb.firebasestorage.app",
-  messagingSenderId: "152220061002",
-  appId: "1:152220061002:web:897adee7e200dc86c345b3",
-  measurementId: "G-SY1E5GZM4N"
-};
-
-const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
-const db = getFirestore(app);
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-contact',
@@ -28,44 +11,93 @@ const db = getFirestore(app);
   styleUrls: ['./contact.scss']
 })
 export class Contact {
-  newCandidate = { name: '', age: null as number | null, city: '', description: '', imageUrl: '', resumeUrl: '' };
-  isUploading = false;
 
-  async uploadFile(event: any, type: 'image' | 'pdf') {
-    const file = event.target.files[0];
-    if (!file) return;
+  name = '';
+  email = '';
+  message = '';
 
-    this.isUploading = true;
-    try {
-      const storageRef = ref(storage, `${type}s/${Date.now()}_${file.name}`);
-      const snapshot = await uploadBytes(storageRef, file);
-      const url = await getDownloadURL(snapshot.ref);
-      
-      if (type === 'image') this.newCandidate.imageUrl = url;
-      else this.newCandidate.resumeUrl = url;
-      
-      alert('הקובץ הועלה בהצלחה!');
-    } catch (error) {
-      console.error("שגיאת העלאה:", error);
-      alert('שגיאת העלאה: ודאי שה-Storage Rules מוגדרים ל-true');
-    } finally {
-      this.isUploading = false;
-    }
+  gender = '';
+age: number | null = null;
+city = '';
+tribe = '';
+  imageFile: File | null = null;
+  pdfFile: File | null = null;
+
+  isLoading = false;
+
+  constructor(private http: HttpClient) {}
+
+  // 📷 תמונה
+  onImage(event: any) {
+    this.imageFile = event.target.files[0];
   }
 
-  async saveCandidate() {
-    if (!this.newCandidate.name || !this.newCandidate.age) {
-      alert('נא למלא שם וגיל');
+  // 📄 PDF
+  onPdf(event: any) {
+    this.pdfFile = event.target.files[0];
+  }
+
+  // 🚀 שליחה לשרת
+  send() {
+
+    if (!this.name || !this.email || !this.message) {
+      alert('מלאי את כל השדות');
       return;
     }
 
-    try {
-      await addDoc(collection(db, "candidates"), this.newCandidate);
-      alert('המועמד נשמר בהצלחה!');
-      this.newCandidate = { name: '', age: null, city: '', description: '', imageUrl: '', resumeUrl: '' };
-    } catch (e) {
-      console.error("שגיאת שמירה:", e);
-      alert('שגיאת שמירה למסד הנתונים');
+    if (!this.gender) {
+      alert('חובה לבחור מין');
+      return;
     }
+
+    const formData = new FormData();
+
+    formData.append('name', this.name);
+    formData.append('email', this.email);
+    formData.append('message', this.message);
+
+    formData.append('gender', this.gender);
+
+    // ⭐ השדות החדשים
+    formData.append('age', String(this.age ?? ''));
+    formData.append('city', this.city);
+    formData.append('tribe', this.tribe);
+
+  
+
+    if (this.imageFile) {
+      formData.append('image', this.imageFile);
+    }
+
+    if (this.pdfFile) {
+      formData.append('pdf', this.pdfFile);
+    }
+
+    this.isLoading = true;
+
+    this.http.post('http://localhost:3000/api/contact', formData)
+      .subscribe({
+        next: () => {
+          alert('נשלח בהצלחה 🚀');
+
+          // reset
+          this.name = '';
+          this.email = '';
+          this.message = '';
+          this.gender = '';
+          this.age = null;
+          this.city = '';
+          this.tribe = '';
+          this.imageFile = null;
+          this.pdfFile = null;
+        },
+        error: (err: any) => {
+          console.error(err);
+          alert('שגיאה בשליחה');
+        },
+        complete: () => {
+          this.isLoading = false;
+        }
+      });
   }
 }

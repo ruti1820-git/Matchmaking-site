@@ -1,0 +1,20 @@
+<div class="login-container">
+  <div class="login-card">
+
+    <h2>התחברות</h2>
+
+    <input
+      type="email"
+      [(ngModel)]="email"
+      placeholder="הכנס אימייל"
+    />
+
+    <button
+      (click)="sendCode()"
+      [disabled]="isLoading"
+    >
+      {{ isLoading ? 'שולח...' : 'שלח קישור התחברות' }}
+    </button>
+
+  </div>
+</div>

@@ -1,31 +1,67 @@
-<div class="search-bar">
-  <input #nameInput type="text" placeholder="חיפוש לפי שם..." [(ngModel)]="searchName">
-  
+<div class="container">
+
+  <h2>רשימת בנות</h2>
+
+<div class="filters">
+
+  <input type="text" placeholder="שם" [(ngModel)]="searchName" />
+
   <div class="divider"></div>
-  
-  <input type="number" placeholder="גיל..." [(ngModel)]="searchAge">
+
+  <input type="number" placeholder="גיל" [(ngModel)]="searchAge" />
+
+  <div class="divider"></div>
+
+  <input type="text" placeholder="עיר" [(ngModel)]="searchCity" />
+
+  <div class="divider"></div>
+
+  <input type="text" placeholder="עדה" [(ngModel)]="searchTribe" />
+
 </div>
 
-<div class="cards-container">
-  <div *ngFor="let candidate of filteredCandidates" class="candidate-card">
-    <img [src]="candidate.imageUrl" 
-         [alt]="candidate.name" 
-         (click)="openImage(candidate.imageUrl)">
-    
-    <h3>{{ candidate.name }}</h3>
-    <p>גיל: {{ candidate.age }} | עיר: {{ candidate.city }}</p>
-    <p>{{ candidate.description }}</p>
-    
-    <a [href]="candidate.resumeUrl" target="_blank" download class="download-btn">
-      הורד רזומה (PDF)
-    </a>
+  <div class="cards">
+
+    <div *ngFor="let girl of filteredGirls" class="card">
+
+      <img
+        *ngIf="girl.image_url"
+        [src]="getImageUrl(girl.image_url)"
+        class="avatar"
+        (click)="openImage(getImageUrl(girl.image_url))"
+      />
+
+      <div class="info">
+
+        <h3>{{ girl.name }}</h3>
+
+        <p>🎂 גיל: {{ girl.age || 'לא צויין' }}</p>
+        <p>📍 עיר: {{ girl.city || 'לא צויין' }}</p>
+        <p>🧬 עדה: {{ girl.tribe || 'לא צויין' }}</p>
+
+        <a
+          *ngIf="girl.resume_url"
+          [href]="getPdfUrl(girl.resume_url)"
+          target="_blank"
+          class="btn"
+        >
+          📄 צפייה ברזומה
+        </a>
+
+      </div>
+
+    </div>
+
   </div>
 </div>
 
-<div *ngIf="filteredCandidates.length === 0" style="text-align: center; margin-top: 40px; color: #94a3b8;">
-  <p>לא נמצאו תוצאות התואמות לחיפוש שלך.</p>
-</div>
+<div class="modal-backdrop" *ngIf="selectedImage" (click)="closeImage()">
 
-<div class="overlay" *ngIf="selectedImage" (click)="closeImage()">
-  <img [src]="selectedImage" class="full-image">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+
+    <img [src]="selectedImage" />
+    <button class="close-btn" (click)="closeImage()">✖</button>
+
+  </div>
+
 </div>

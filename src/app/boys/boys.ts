@@ -1,47 +1,76 @@
-import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Candidate } from '../models/candidate';
-import { CandidateService } from '../services/candidate';
+import { BoysService } from '../services/boys';
 
 @Component({
   selector: 'app-boys',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './boys.html',
-  styleUrls: ['./boys.scss'],
+  styleUrls: ['./boys.scss']
 })
 export class Boys implements OnInit {
-  boysList: Candidate[] = [];
+
+  boysList: any[] = [];
+
   searchName: string = '';
   searchAge: number | null = null;
+  searchCity: string = '';
+  searchTribe: string = '';
+
   selectedImage: string | null = null;
 
-  // גישה לאינפוט החיפוש ב-HTML
-  @ViewChild('nameInput') nameInput!: ElementRef;
-
-  constructor(private candidateService: CandidateService) {}
+  constructor(private boysService: BoysService) {}
 
   ngOnInit() {
-    this.boysList = this.candidateService.getBoys();
+      console.log('BOYS COMPONENT LOADED');
+    this.loadBoys();
   }
 
-  // האזנה ללחיצת CTRL+F
-  @HostListener('window:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.ctrlKey && event.key === 'f') {
-      event.preventDefault();
-      this.nameInput.nativeElement.focus();
-    }
+  loadBoys() {
+    this.boysService.getBoys().subscribe({
+      next: (data: any) => this.boysList = data,
+      error: (err: any) => console.error(err)
+    });
   }
 
-  openImage(url: string) { this.selectedImage = url; }
-  closeImage() { this.selectedImage = null; }
+  get filteredBoys() {
+    return this.boysList.filter(boy => {
 
-  get filteredCandidates() {
-    return this.boysList.filter(c => 
-      (this.searchName === '' || c.name.toLowerCase().includes(this.searchName.toLowerCase())) &&
-      (this.searchAge === null || c.age === this.searchAge)
-    );
+      const matchName =
+        !this.searchName ||
+        boy.name?.toLowerCase().includes(this.searchName.toLowerCase());
+
+      const matchAge =
+        !this.searchAge ||
+        boy.age === Number(this.searchAge);
+
+      const matchCity =
+        !this.searchCity ||
+        boy.city?.toLowerCase().includes(this.searchCity.toLowerCase());
+
+      const matchTribe =
+        !this.searchTribe ||
+        boy.tribe?.toLowerCase().includes(this.searchTribe.toLowerCase());
+
+      return matchName && matchAge && matchCity && matchTribe;
+    });
+  }
+
+  openImage(img: string) {
+    this.selectedImage = img;
+  }
+
+  closeImage() {
+    this.selectedImage = null;
+  }
+
+  getImageUrl(path: string) {
+    return `http://localhost:3000/${path}`;
+  }
+
+  getPdfUrl(path: string) {
+    return `http://localhost:3000/${path}`;
   }
 }

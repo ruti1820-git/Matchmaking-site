@@ -5,7 +5,8 @@ import { Candidate } from '../models/candidate';
   providedIn: 'root'
 })
 export class CandidateService {
-  // רשימת הבנים
+
+
   private boys: Candidate[] = [
     { 
       id: 1, 
@@ -13,12 +14,11 @@ export class CandidateService {
       age: 29, 
       city: 'ירושלים', 
       description: 'לומד בחור מצוין',
-  // במערך girls שלך:
-imageUrl: 'BEN/m.jpg',
-resumeUrl: 'BEN/CV/m.pdf'    }
+      imageUrl: 'BEN/m.jpg',
+      resumeUrl: 'BEN/CV/m.pdf'   
+     }
   ];
 
-  // רשימת הבנות - כאן הוספנו את המערך החדש
   private girls: Candidate[] = [
     { 
       id: 101, 
@@ -26,18 +26,17 @@ resumeUrl: 'BEN/CV/m.pdf'    }
       age: 27, 
       city: 'ירושלים', 
       description: 'תכנות',
-  // במערך girls שלך:
-imageUrl: 'BAT/Shulamit.jpg',
-resumeUrl: 'BAT/CV/S.pdf'    },
+      imageUrl: 'BAT/Shulamit.jpg',
+      resumeUrl: 'BAT/CV/S.pdf' 
+  },
     { 
       id: 102, 
       name: 'שרה וינוגרד', 
       age: 33, 
       city: 'ירושלים', 
       description: 'תכנות',
-  // במערך girls שלך:
-imageUrl: 'BAT/SARA.jpg',
-resumeUrl: 'BAT/CV/SARA.pdf'    }
+      imageUrl: 'BAT/SARA.jpg',
+      resumeUrl: 'BAT/CV/SARA.pdf'    }
   ];
 
   getBoys(): Candidate[] {

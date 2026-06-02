@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Candidate } from '../models/candidate';
-import { CandidateService } from '../services/candidate';
+import { GirlsService } from '../services/girls';
 
 @Component({
   selector: 'app-girls',
@@ -12,36 +11,65 @@ import { CandidateService } from '../services/candidate';
   styleUrls: ['./girls.scss']
 })
 export class Girls implements OnInit {
-  girlsList: Candidate[] = [];
+
+  girlsList: any[] = [];
+
   searchName: string = '';
   searchAge: number | null = null;
+  searchCity: string = '';
+  searchTribe: string = '';
+
   selectedImage: string | null = null;
 
-  // גישה לתיבת החיפוש ב-HTML
-  @ViewChild('nameInput') nameInput!: ElementRef;
-
-  constructor(private candidateService: CandidateService) {}
+  constructor(private girlsService: GirlsService) {}
 
   ngOnInit() {
-    this.girlsList = this.candidateService.getGirls();
+    this.loadGirls();
   }
 
-  // האזנה ללחיצות מקלדת גלובליות
-  @HostListener('window:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.ctrlKey && event.key === 'f') {
-      event.preventDefault(); // מונע את חיפוש הדפדפן הרגיל
-      this.nameInput.nativeElement.focus(); // שם את הפוקוס על האינפוט
-    }
+  loadGirls() {
+    this.girlsService.getGirls().subscribe({
+      next: (data: any) => this.girlsList = data,
+      error: (err: any) => console.error(err)
+    });
   }
 
-  openImage(url: string) { this.selectedImage = url; }
-  closeImage() { this.selectedImage = null; }
+  get filteredGirls() {
+    return this.girlsList.filter(girl => {
 
-  get filteredCandidates() {
-    return this.girlsList.filter(c => 
-      (this.searchName === '' || c.name.toLowerCase().includes(this.searchName.toLowerCase())) &&
-      (this.searchAge === null || c.age === this.searchAge)
-    );
+      const matchName =
+        !this.searchName ||
+        girl.name?.toLowerCase().includes(this.searchName.toLowerCase());
+
+      const matchAge =
+        !this.searchAge ||
+        girl.age === Number(this.searchAge);
+
+      const matchCity =
+        !this.searchCity ||
+        girl.city?.toLowerCase().includes(this.searchCity.toLowerCase());
+
+      const matchTribe =
+        !this.searchTribe ||
+        girl.tribe?.toLowerCase().includes(this.searchTribe.toLowerCase());
+
+      return matchName && matchAge && matchCity && matchTribe;
+    });
+  }
+
+  openImage(img: string) {
+    this.selectedImage = img;
+  }
+
+  closeImage() {
+    this.selectedImage = null;
+  }
+
+  getImageUrl(path: string) {
+    return `http://localhost:3000/${path}`;
+  }
+
+  getPdfUrl(path: string) {
+    return `http://localhost:3000/${path}`;
   }
 }

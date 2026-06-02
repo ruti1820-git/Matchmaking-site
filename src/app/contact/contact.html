@@ -1,20 +1,81 @@
 <div class="contact-container">
-  <h2>הוספת מועמד</h2>
-  
-  <input [(ngModel)]="newCandidate.name" placeholder="שם מלא" required>
-  <input [(ngModel)]="newCandidate.age" type="number" placeholder="גיל" required>
-  <input [(ngModel)]="newCandidate.city" placeholder="עיר">
-  <textarea [(ngModel)]="newCandidate.description" placeholder="תיאור קצר"></textarea>
 
-  <div class="file-upload">
-    <label>תמונת פרופיל:</label>
-    <input type="file" (change)="uploadFile($event, 'image')" accept="image/*">
-    
-    <label>קורות חיים (PDF):</label>
-    <input type="file" (change)="uploadFile($event, 'pdf')" accept=".pdf">
-  </div>
+  <h2>צור קשר</h2>
 
-  <button (click)="saveCandidate()" [disabled]="isUploading" class="save-btn">
-    {{ isUploading ? 'מעלה קבצים...' : 'שמור מועמד' }}
+  <!-- שם -->
+  <input
+    type="text"
+    [(ngModel)]="name"
+    placeholder="שם"
+  />
+
+  <!-- אימייל -->
+  <input
+    type="email"
+    [(ngModel)]="email"
+    placeholder="אימייל"
+  />
+
+  <!-- הודעה -->
+  <textarea
+    [(ngModel)]="message"
+    placeholder="הודעה"
+  ></textarea>
+
+  <!-- 👤 מין -->
+  <select [(ngModel)]="gender">
+    <option value="">בחר מין</option>
+    <option value="male">זכר</option>
+    <option value="female">נקבה</option>
+  </select>
+
+  <!-- 🎂 גיל -->
+  <input
+    type="number"
+    [(ngModel)]="age"
+    placeholder="גיל"
+  />
+
+<!-- 📍 עיר -->
+<select [(ngModel)]="city">
+  <option value="">בחר עיר</option>
+  <option value="תל אביב">תל אביב</option>
+  <option value="ירושלים">ירושלים</option>
+  <option value="חולון">חולון</option>
+  <option value="בת ים">בת ים</option>
+  <option value="פתח תקווה">פתח תקווה</option>
+</select>
+
+<!-- 🏷 עדה -->
+<select [(ngModel)]="tribe">
+  <option value="">בחר עדה</option>
+  <option value="אשכנזי">אשכנזי</option>
+  <option value="ספרדי">ספרדי</option>
+  <option value="תימני">תימני</option>
+  <option value="מרוקאי">מרוקאי</option>
+  <option value="אחר">אחר</option>
+</select>
+
+  <!-- 📷 תמונה -->
+  <input
+    type="file"
+    accept="image/*"
+    (change)="onImage($event)"
+  />
+
+  <!-- 📄 PDF -->
+  <input
+    type="file"
+    accept="application/pdf"
+    (change)="onPdf($event)"
+  />
+
+  <!-- כפתור שליחה -->
+  <button
+    (click)="send()"
+    [disabled]="isLoading"
+  >
+    {{ isLoading ? 'שולח...' : 'שלח' }}
   </button>
+
 </div>

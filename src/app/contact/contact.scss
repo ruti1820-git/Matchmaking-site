@@ -1,89 +1,136 @@
-/* --- עיצוב מכל הטופס --- */
+
+/* =========================
+   🌌 רקע כללי
+========================= */
 .contact-container {
-  max-width: 500px;
-  margin: 50px auto;
-  padding: 40px;
-  background: rgba(30, 41, 59, 0.5); /* רקע כהה שקוף */
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
+  min-height: 100vh;
+  padding: 40px 20px;
+
+  font-family: Arial, sans-serif;
+
+  background: radial-gradient(circle at top, #1a1a2e, #0f0f1a 60%, #0b0b12);
+  color: #fff;
+
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  color: white;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #f8fafc;
-  }
+  align-items: center;
 }
 
-/* --- עיצוב אינפוטים וטקסט-אריה --- */
-input, textarea {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 12px 15px;
-  color: white;
-  font-size: 1rem;
-  outline: none;
-  transition: 0.3s;
-
-  &::placeholder { color: #94a3b8; }
-
-  &:focus {
-    border-color: #8b5cf6; /* סגול זוהר במיקוד */
-    box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
-  }
-}
-
-textarea {
-  height: 100px;
-  resize: vertical;
-}
-
-/* --- עיצוב בחירת קבצים --- */
-.file-upload {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 10px;
-
-  label {
-    font-size: 0.85rem;
-    color: #94a3b8;
-  }
-
-  input[type="file"] {
-    background: transparent;
-    border: 1px dashed rgba(255, 255, 255, 0.2);
-    padding: 10px;
-    cursor: pointer;
-  }
-}
-
-/* --- כפתור שמירה --- */
-.save-btn {
-  margin-top: 20px;
-  padding: 15px;
-  background: linear-gradient(90deg, #8b5cf6, #22d3ee);
-  border: none;
-  border-radius: 10px;
-  color: white;
+/* =========================
+   כותרת
+========================= */
+h2 {
+  font-size: 30px;
+  margin-bottom: 25px;
   font-weight: bold;
-  font-size: 1.1rem;
+}
+
+/* =========================
+   🧾 טופס כרטיס אחד
+========================= */
+.contact-container {
+  gap: 10px;
+}
+
+/* כל האינפוטים + select */
+.contact-container input,
+.contact-container textarea,
+.contact-container select {
+  width: 340px;
+  max-width: 90%;
+
+  margin: 8px 0;
+  padding: 12px 14px;
+
+  border-radius: 14px;
+
+  border: 1px solid rgba(255,255,255,0.1);
+
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+
+  outline: none;
+
+  font-size: 14px;
+
+  backdrop-filter: blur(10px);
+
+  transition: 0.25s ease;
+}
+
+/* placeholder */
+.contact-container input::placeholder,
+.contact-container textarea::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+/* פוקוס חתיך */
+.contact-container input:focus,
+.contact-container textarea:focus,
+.contact-container select:focus {
+  border-color: #7c5cff;
+  box-shadow: 0 0 15px rgba(124,92,255,0.4);
+  transform: translateY(-1px);
+}
+
+/* textarea */
+textarea {
+  min-height: 110px;
+  resize: none;
+}
+
+/* =========================
+   📁 קבצים
+========================= */
+input[type="file"] {
+  background: transparent;
+  border: none;
+  color: #fff;
+  padding: 8px;
+}
+
+/* =========================
+   🔘 כפתור שליחה
+========================= */
+button {
+  width: 340px;
+  max-width: 90%;
+
+  margin-top: 15px;
+  padding: 12px;
+
+  border: none;
+  border-radius: 14px;
+
   cursor: pointer;
-  transition: 0.3s;
 
-  &:hover {
-    filter: brightness(1.2);
-    transform: translateY(-2px);
-  }
+  background: linear-gradient(135deg, #6c63ff, #8a7dff);
+  color: #fff;
 
-  &:disabled {
-    background: #475569;
-    cursor: not-allowed;
-  }
+  font-size: 15px;
+
+  box-shadow: 0 10px 25px rgba(108,99,255,0.3);
+
+  transition: 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(108,99,255,0.5);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.contact-container select {
+  background-color: rgba(20, 20, 30, 0.95);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* האופציות בתוך הרשימה */
+.contact-container select option {
+  background: #1a1a2e;
+  color: #fff;
 }

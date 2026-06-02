@@ -1,23 +1,58 @@
-<div class="search-bar">
-  <input #nameInput type="text" placeholder="חיפוש שם..." [(ngModel)]="searchName">
-  <div class="divider"></div>
-  <input type="number" placeholder="גיל..." [(ngModel)]="searchAge">
-</div>
+<div class="container">
 
-<div class="cards-container">
-  <div *ngFor="let candidate of filteredCandidates" class="candidate-card">
-    <img [src]="candidate.imageUrl" 
-         [alt]="candidate.name" 
-         (click)="openImage(candidate.imageUrl)">
-    <h3>{{ candidate.name }}</h3>
-    <p>גיל: {{ candidate.age }} | עיר: {{ candidate.city }}</p>
-    <p>{{ candidate.description }}</p>
-    <a [href]="candidate.resumeUrl" target="_blank" download class="download-btn">
-      הורד רזומה (PDF)
-    </a>
+  <h2>רשימת בנים</h2>
+
+  <!-- פילטרים -->
+  <div class="filters">
+    <input type="text" placeholder="שם" [(ngModel)]="searchName" />
+    <input type="number" placeholder="גיל" [(ngModel)]="searchAge" />
+    <input type="text" placeholder="עיר" [(ngModel)]="searchCity" />
+    <input type="text" placeholder="עדה" [(ngModel)]="searchTribe" />
+  </div>
+
+  <div class="cards">
+
+    <div *ngFor="let boy of filteredBoys" class="card">
+
+      <img
+        *ngIf="boy.image_url"
+        [src]="getImageUrl(boy.image_url)"
+        class="avatar"
+        (click)="openImage(getImageUrl(boy.image_url))"
+      />
+
+      <div class="info">
+
+        <h3>{{ boy.name }}</h3>
+
+        <p>🎂 גיל: {{ boy.age || 'לא צויין' }}</p>
+        <p>📍 עיר: {{ boy.city || 'לא צויין' }}</p>
+        <p>🧬 עדה: {{ boy.tribe || 'לא צויין' }}</p>
+
+        <a
+          *ngIf="boy.resume_url"
+          [href]="getPdfUrl(boy.resume_url)"
+          target="_blank"
+          class="btn"
+        >
+          📄 צפייה ברזומה
+        </a>
+
+      </div>
+
+    </div>
+
   </div>
 </div>
 
-<div class="overlay" *ngIf="selectedImage" (click)="closeImage()">
-  <img [src]="selectedImage" class="full-image">
+<!-- מודל -->
+<div class="modal-backdrop" *ngIf="selectedImage" (click)="closeImage()">
+
+  <div class="modal-content" (click)="$event.stopPropagation()">
+
+    <img [src]="selectedImage" />
+    <button class="close-btn" (click)="closeImage()">✖</button>
+
+  </div>
+
 </div>
