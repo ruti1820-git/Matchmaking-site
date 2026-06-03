@@ -38,21 +38,24 @@ export class AuthService {
   // שליחת קישור התחברות לדואר האלקטרוני
 
 sendSignInLink(email: string) {
+console.log('🔥 sendSignInLink רץ', email);
+  const cleanEmail = (email || '').trim().toLowerCase();
 
-  const cleanEmail = email.trim().toLowerCase();
+  if (!cleanEmail) {
+    alert("יש להזין מייל");
+    return Promise.reject('empty email');
+  }
 
-  const normalizedAllowed = allowedEmails.map(
-    e => e.trim().toLowerCase()
-  );
+  const normalizedAllowed = allowedEmails
+    .map(e => (e || '').trim().toLowerCase())
+    .filter(e => e); // מסיר מחרוזות ריקות במקרה שיש
 
   console.log('EMAIL:', cleanEmail);
   console.log('ALLOWED:', normalizedAllowed);
 
   if (!normalizedAllowed.includes(cleanEmail)) {
-
     alert("המייל הזה לא מורשה להיכנס לאתר 🚫");
-
-    return Promise.reject('Email not allowed');
+    return Promise.reject('not allowed');
   }
 
   return sendSignInLinkToEmail(
@@ -63,7 +66,6 @@ sendSignInLink(email: string) {
     localStorage.setItem('emailForSignIn', cleanEmail);
   });
 }
-
   isSignInLink(url: string) {
     return isSignInWithEmailLink(this.auth, url);
   }

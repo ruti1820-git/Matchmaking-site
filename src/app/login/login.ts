@@ -3,6 +3,7 @@ import { SupabaseService } from '../supabase.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+ import { allowedEmails } from '../Auth/allowed-users';
 
 @Component({
   selector: 'app-login',
@@ -21,24 +22,39 @@ export class LoginComponent {
     private router: Router
   ) {}
 
-  sendCode() {
-    if (!this.email.includes('@')) {
-      alert('מייל לא תקין');
-      return;
-    }
 
-    this.isLoading = true;
+sendCode() {
 
-    this.auth.signIn(this.email)
-      .then(() => {
-        alert('נשלח קישור למייל 📩');
-      })
-      .catch(err => {
-        console.error(err);
-        alert('שגיאה בשליחת מייל');
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
+  const cleanEmail = (this.email || '').trim().toLowerCase();
+
+  const normalizedAllowed = allowedEmails
+    .map(e => (e || '').trim().toLowerCase());
+
+  console.log('EMAIL:', cleanEmail);
+  console.log('ALLOWED:', normalizedAllowed);
+
+  if (!normalizedAllowed.includes(cleanEmail)) {
+    alert('🚫 המייל הזה לא מורשה להיכנס לאתר');
+    return;
   }
+
+  if (!cleanEmail.includes('@')) {
+    alert('מייל לא תקין');
+    return;
+  }
+
+  this.isLoading = true;
+
+  this.auth.signIn(cleanEmail)
+    .then(() => {
+      alert('נשלח קישור למייל 📩');
+    })
+    .catch(err => {
+      console.error(err);
+      alert('שגיאה בשליחת מייל');
+    })
+    .finally(() => {
+      this.isLoading = false;
+    });
+}
 }
