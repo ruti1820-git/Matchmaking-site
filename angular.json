@@ -20,19 +20,20 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "outputPath": "dist/match-making-site",
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-         "assets": [
-  {
-    "glob": "**/*",
-    "input": "public"
-  },
-  {
-    "glob": "**/*",
-    "input": "src/app/assets"
-  }
-],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/app/assets"
+              }
+            ],
             "styles": [
               "src/styles.scss"
             ]
