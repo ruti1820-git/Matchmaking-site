@@ -14,7 +14,7 @@ export const routes: Routes = [
 
   { path: 'boys', component: Boys , canActivate: [authGuard]},
   { path: 'girls', component: Girls , canActivate: [authGuard]},
-  { path: 'contact', component: Contact   , canActivate: [authGuard]},
+  { path: 'contact', component: Contact  },
 
   { path: '', redirectTo: 'login', pathMatch: 'full' }
 ];

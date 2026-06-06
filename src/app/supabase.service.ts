@@ -16,15 +16,14 @@ export class SupabaseService {
   }
 
   // 📩 שליחת מייל התחברות (Magic Link)
-  signIn(email: string) {
-    return this.supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: 'http://localhost:4200/auth/callback'
-      }
-    });
-  }
-
+signIn(email: string) {
+  return this.supabase.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: window.location.origin + '/auth/callback'
+    }
+  });
+}
   // 👤 קבלת משתמש
   getUser() {
     return this.supabase.auth.getUser();

@@ -14,13 +14,24 @@ export class AuthCallbackComponent implements OnInit {
     private router: Router
   ) {}
 
-  async ngOnInit() {
-    const { data } = await this.auth.getSession();
+async ngOnInit() {
 
-    if (data.session) {
-      this.router.navigate(['/boys']); // או girls
-    } else {
-      this.router.navigate(['/login']);
-    }
+  const { data } = await this.auth.getSession();
+
+  if (data.session) {
+
+    // שומר זמן התחברות
+    localStorage.setItem(
+      'loginTime',
+      Date.now().toString()
+    );
+
+    this.router.navigate(['/boys']);
+
+  } else {
+
+    this.router.navigate(['/login']);
+
   }
+}
 }
