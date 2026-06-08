@@ -19,6 +19,8 @@ export class AuthCallbackComponent implements OnInit {
     const { data, error } =
       await this.auth.supabase.auth.exchangeCodeForSession(window.location.href);
 
+console.log('DATA:', data);
+console.log('ERROR:', error);
     if (error) {
       console.error(error);
       this.router.navigate(['/login']);
